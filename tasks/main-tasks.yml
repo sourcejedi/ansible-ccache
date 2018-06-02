@@ -1,0 +1,25 @@
+# TODO: do we want to install gcc and g++ first?  See Debian bug
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=632779
+
+- name: install ccache
+  package:
+    name: ccache
+    state: present
+
+# ccache is not enabled automatically on Debian,
+# and there is currently no debconf to do so.
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=639223
+# 
+# Use a profile.d drop-in, "inspired" by Fedora.
+#
+# Currently the only other way to set PATH would be through pam_env.
+# It could be acceptible for the purpose of this role, but since we
+# have a nicer drop-in scheme, we may as well stick with that.
+#
+# https://unix.stackexchange.com/questions/446990/what-is-the-status-of-setting-environment-variables-without-profile
+
+- name: enable ccache for all user profiles
+  copy:
+    src: ccache.sh
+    dest: /etc/profile.d/ccache.sh
+  when: ansible_os_family == "Debian"
