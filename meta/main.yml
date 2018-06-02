@@ -1,6 +1,6 @@
 galaxy_info:
   author: Alan Jenkins
-  description: Install ccache and enable it for all user profiles
+  description: Install ccache
 
   license: GPLv3
 
